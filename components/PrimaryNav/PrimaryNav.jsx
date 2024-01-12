@@ -1,28 +1,28 @@
 import Image from "next/image";
 import PN_SearchBar from "./SubComps/PN_SearchBar";
 
-const PrimaryNav = ({ brandInfo }) => {
+const PrimaryNav = ({ companyInfo }) => {
   return (
     <>
-      <section className="sticky top-0 flex flex-col md:flex-row justify-center items-center w-full gap-4 px-4 py-4 bg-white">
+      <section className="sticky top-0 flex flex-col md:flex-row justify-center items-center w-full gap-4 px-4 py-4 pb-6 bg-gradient-to-b from-white from-95% rounded-b-xl z-50">
         {/* Brand Section */}
         <section className="flex gap-4 w-full md:w-2/3 items-center">
           {/* Logo Div */}
           <div className="rounded-2xl overflow-clip aspect-square h-14 relative shadow-inner">
             <Image
-              src={brandInfo.brandLogo}
+              src={companyInfo.companyLogo}
+              blurDataURL={companyInfo.companyLogo}
               alt="Brand Logo"
               quality={100}
               fill
               style={{ objectFit: "cover" }}
               placeholder="blur"
-              blurDataURL={brandInfo.brandLogo}
             />
           </div>
 
           {/* Name & About Div */}
           <div>
-            <h1 className="font-medium text-lg">{brandInfo.brandName}</h1>
+            <h1 className="font-medium text-lg">{companyInfo.companyName}</h1>
             <button className="px-2 py-[4px] bg-gray-200 text-gray-600 font-normal text-xs rounded-md">
               About Us
             </button>
@@ -30,9 +30,11 @@ const PrimaryNav = ({ brandInfo }) => {
         </section>
 
         {/* Search Section */}
-        <section className="w-full md:w-1/3">
-          <PN_SearchBar />
-        </section>
+        {
+          <section className="w-full md:w-1/3">
+            <PN_SearchBar />
+          </section>
+        }
       </section>
 
       {/* About Us Modal */}
