@@ -1,6 +1,6 @@
 {
   "name": "tif_ca",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -12,6 +12,7 @@
     "@google/model-viewer": "^3.2.1",
     "@heroicons/react": "^2.1.1",
     "autoprefixer": "10.4.15",
+    "axios": "^1.6.5",
     "next": "13.4.19",
     "postcss": "8.4.29",
     "react": "18.2.0",

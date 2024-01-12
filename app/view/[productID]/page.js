@@ -1,17 +1,91 @@
 "use client";
+import axios from "axios";
 import LoadingIndicator from "@/components/Common/LoadingIndicator";
 import ProductViewInfoCard from "@/components/Product View/ProductViewInfoCard/ProductViewInfoCard";
 import ProductViewModelCard from "@/components/Product View/ProductViewModelCard/ProductViewModelCard";
 import ProductViewNavBar from "@/components/Product View/ProductViewNavBar/ProductViewNavBar";
 import useProduct from "@/hooks/useProduct";
+import { useEffect, useState } from "react";
 
 const ProductView = ({ params }) => {
   const { product, isProductLoading, isProductError } = useProduct(
     params.productID
   );
 
+  const [analyticsViewsFields, setAnalyticsViewsFields] = useState({
+    productID: 0,
+    ARloadtime: 100,
+    ARviews: 1,
+    clicksToAddToCart: 2,
+    clicksToWishlist: 3,
+    clickToColorChange: 4,
+    clickToTextureChange: 5,
+    duration360: 6,
+    durationAR: 7,
+    Loadtime360: 100,
+    productSKU: 0,
+    screenshotsInAR: 8,
+    videosInAR: 9,
+    views360: 10,
+  });
+
   console.log("Product Data Fetched: ");
   console.log(product);
+
+  useEffect(() => {
+    if (product) {
+      SetAnalyticsData(product);
+    }
+  }, [product]);
+
+  useEffect(() => {
+    if (product) {
+      console.log("Uploading analytics data");
+      uploadAnalytics();
+    }
+  }, [analyticsViewsFields]);
+
+  function SetAnalyticsData(productData) {
+    var anl_data = {
+      productID: productData.data.productID,
+      ARloadtime: 100,
+      ARviews: 1,
+      clicksToAddToCart: 2,
+      clicksToWishlist: 3,
+      clickToColorChange: 4,
+      clickToTextureChange: 5,
+      duration360: 6,
+      durationAR: 7,
+      Loadtime360: 100,
+      productSKU: 0,
+      screenshotsInAR: 8,
+      videosInAR: 9,
+      views360: 10,
+    };
+
+    setAnalyticsViewsFields(anl_data);
+    console.log("Analytics data set: " + JSON.stringify(analyticsViewsFields));
+  }
+
+  const uploadAnalytics = async () => {
+    console.log(
+      "Uploading analytics - " + JSON.stringify(analyticsViewsFields)
+    );
+    try {
+      const response = await axios.patch(
+        "https://0zwhtezm4f.execute-api.ap-south-1.amazonaws.com/TryItFirst/analytics/views",
+        analyticsViewsFields
+      );
+
+      if (response.status === 200) {
+        console.log("Analytics data upload successful");
+      } else {
+        console.log("Analytics upload error");
+      }
+    } catch (err) {
+      console.log("Analytics upload error");
+    }
+  };
 
   return (
     <main className="flex md:flex-row flex-col items-center justify-center w-screen h-[100svh] bg-white">
@@ -47,7 +121,7 @@ const ProductView = ({ params }) => {
       )}
 
       {product && product.data != null && !isProductError && (
-        <section className="flex md:flex-row flex-col md:items-center md:justify-center md:gap-6 md:p-6 w-full h-full border-2">
+        <section className="flex md:flex-row flex-col md:items-center md:justify-center md:gap-6 md:p-6 w-full h-full">
           <section className="w-full md:h-2/3 h-1/3 bg-white">
             <ProductViewModelCard productInfo={product} />
           </section>
