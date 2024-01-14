@@ -86,7 +86,7 @@ const ProductViewModelCard = ({ productInfo }) => {
         <div
           slot="ar-button"
           id="ar-button"
-          className="flex items-center justify-end px-2 py-4 w-full h-auto"
+          className="absolute right-0 flex items-center justify-end px-2 py-4 w-fit h-auto"
         >
           <button className="flex items-center justify-center px-4 py-2 gap-2 bg-tif-blue text-white rounded-full shadow-xl">
             <CubeTransparentIcon className="w-5 h-5" />
