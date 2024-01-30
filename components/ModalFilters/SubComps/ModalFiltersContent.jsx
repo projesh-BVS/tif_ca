@@ -71,7 +71,7 @@ const ModalFiltersContent = ({
                 />
               </div>
 
-              {/*<div className="flex flex-col w-full overflow-clip">
+              <div className="flex flex-col w-full overflow-clip">
                 <div className="flex items-center justify-start p-2 gap-2 bg-tif-pink text-white">
                   <CreditCardIcon className="w-5 h-5" />
                   <h1 className="font-medium text-lg text-white">
@@ -83,7 +83,7 @@ const ModalFiltersContent = ({
                   maxPrice={productPriceMax}
                   activePriceRange={activePriceRange}
                 />
-              </div>*/}
+              </div>
 
               {/*<h1>
                 {"Min Price: " +
