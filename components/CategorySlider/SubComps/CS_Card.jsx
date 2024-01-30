@@ -1,6 +1,6 @@
 const CS_Card = ({ catName, catID, catActive, onClickCallback }) => {
   const catNameValue = Object.values(catName);
-  const catActiveValue = Object.values(catActive);
+  const catActiveValue = catActive;
 
   return (
     <button
@@ -8,17 +8,14 @@ const CS_Card = ({ catName, catID, catActive, onClickCallback }) => {
       id={catID}
       onClick={() => onClickCallback(catName)}
       className={`${
-        catNameValue === catActiveValue
-          ? "text-white bg-blue-500 shadow-sm"
-          : "text-gray-900 shadow-md border-[1px]"
-      } relative rounded-xl px-4 ml-4 py-2 text-sm transition duration-[250ms] ease-in-out`}
+        catNameValue.toString() === catActiveValue.toString()
+          ? "font-semibold text-white bg-gradient-to-br from-tif-blue to-tif-pink"
+          : "text-gray-900 font-medium shadow-[0_0px_6px_2px_rgba(0,0,0,0.10)]"
+      } relative rounded-full px-4 py-2 text-sm transition duration-[250ms] ease-in-out`}
     >
       <h1>
         {console.log(
-          "Name : " +
-            Object.values(catName) +
-            " | Active : " +
-            Object.values(catActive)
+          "Name : " + Object.values(catName) + " | Active : " + catActive
         )}
         {catName}
       </h1>

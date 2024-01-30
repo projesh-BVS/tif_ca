@@ -7,6 +7,8 @@ import CategorySlider from "@/components/CategorySlider/CategorySlider";
 import ProductGrid from "@/components/ProductGrid/ProductGrid";
 import useCompany from "@/hooks/useCompany";
 import LoadingIndicator from "@/components/Common/LoadingIndicator";
+import ModalAbout from "@/components/ModalAbout/ModalAbout";
+import ModalFilters from "@/components/ModalFilters/ModalFilters";
 
 const catItems = [
   "All",
@@ -25,11 +27,39 @@ const Home = () => {
   const { company, isCompanyLoading, isCompanyError } = useCompany(
     companyIDQuery ? parseInt(companyIDQuery) : 102
   );
-  const [activeCategory, setActiveCategory] = useState();
+  const [activeCategory, setActiveCategory] = useState(["All"]);
+  const [activeOutlet, setActiveOutlet] = useState(-1);
+  const [activePriceRange, setActivePriceRange] = useState({
+    min: Number.MIN_VALUE,
+    max: Number.MAX_VALUE,
+  });
+  const [openAboutUsModal, setOpenAboutUsModal] = useState(false);
+  const [openFiltersModal, setOpenFiltersModal] = useState(false);
 
   const handleCategoryChange = (newActiveCategory) => {
     setActiveCategory(newActiveCategory);
   };
+
+  const handleOutletChange = (newActiveOutlet) => {
+    setActiveOutlet(newActiveOutlet);
+  };
+
+  function Callback_Modal_AboutUs_Open() {
+    setOpenAboutUsModal(true);
+  }
+
+  function Callback_Modal_AboutUs_Close() {
+    setOpenAboutUsModal(false);
+  }
+
+  function Callback_Modal_Filters_Open() {
+    setOpenFiltersModal(true);
+  }
+
+  function Callback_Modal_Filters_Close(outletFilter) {
+    setOpenFiltersModal(false);
+    handleOutletChange(outletFilter);
+  }
 
   useEffect(() => {
     // This is where we will initialize Model Viewer.
@@ -76,14 +106,32 @@ const Home = () => {
   }
 
   return (
-    <main className="h-[100svh] w-screen bg-white">
-      <PrimaryNav companyInfo={company.company[0]} />
-      {/*<CategorySlider
-        categoryItems={company.company[0].categories}
-        id="PrimaryCatSlider"
+    <main className="h-[100svh] w-full bg-white overflow-auto">
+      <ModalAbout
+        doOpen={openAboutUsModal}
+        companyInfo={company.company[0]}
+        callback_OnClose={Callback_Modal_AboutUs_Close}
+      />
+      <ModalFilters
+        doOpen={openFiltersModal}
+        companyOutlets={company.outletList}
+        companyProducts={company.catalogue}
+        activeOutlet={activeOutlet}
+        activePriceRange={activePriceRange}
+        callback_OnClose={Callback_Modal_Filters_Close}
+      />
+      <PrimaryNav
+        companyInfo={company.company[0]}
+        activeCategory={activeCategory}
         activeCategoryCallback={handleCategoryChange}
-      />*/}
-      <ProductGrid productItems={company.catalogue} />
+        openAboutUsModalCallback={Callback_Modal_AboutUs_Open}
+        openFiltersModalCallback={Callback_Modal_Filters_Open}
+      />
+      <ProductGrid
+        productItems={company.catalogue}
+        category={activeCategory}
+        outlet={activeOutlet}
+      />
     </main>
   );
 };

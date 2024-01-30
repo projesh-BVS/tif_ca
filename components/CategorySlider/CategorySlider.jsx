@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CS_Card from "./SubComps/CS_Card";
 
-const CategorySlider = ({ categoryItems, id, activeCategoryCallback }) => {
-  const [activeCategory, setActiveCategory] = useState(
-    Object.keys(categoryItems[0])
-  );
+const CategorySlider = ({
+  categoryItems,
+  id,
+  currActiveCategory,
+  activeCategoryCallback,
+}) => {
+  const [activeCategory, setActiveCategory] = useState(currActiveCategory);
 
   const handleCategoryChange = (category) => {
     console.log("Changed to " + category);
@@ -13,16 +16,15 @@ const CategorySlider = ({ categoryItems, id, activeCategoryCallback }) => {
   };
 
   return (
-    <section className="flex flex-col pb-2 w-full bg-white rounded-b-2xl shadow-lg">
-      {/* <div className="flex justify-between px-4 pb-4 items-center w-full">
-        <h1 className="font-medium text-sm">Categories</h1>
-        <button className="pl-4 py-2 text-xs underline text-red-500">
-          Show All
-        </button>
-      </div> */}
-
+    <section className="flex flex-col w-full">
       {/* Slider Div */}
-      <div className="relative flex whitespace-nowrap pr-4 pb-4 overflow-x-auto scrollbar-hide scroll-smooth">
+      <div className="relative flex whitespace-nowrap px-4 py-2 gap-4 overflow-x-auto scrollbar-hide scroll-smooth">
+        <CS_Card
+          catName={["All"]}
+          catID={id + "_category_" + "-1"}
+          catActive={activeCategory}
+          onClickCallback={handleCategoryChange}
+        />
         {categoryItems.map((category, index) => (
           <CS_Card
             catName={Object.keys(category)}
@@ -32,8 +34,8 @@ const CategorySlider = ({ categoryItems, id, activeCategoryCallback }) => {
           />
         ))}
       </div>
-      <div className="absolute left-0 w-4 h-11 bg-gradient-to-r from-white from-20%" />
-      <div className="absolute m-auto right-0 w-4 h-11 bg-gradient-to-l from-white from-20%" />
+      <div className="absolute left-0 w-4 h-14 bg-gradient-to-r from-white from-40%" />
+      <div className="absolute right-0 w-5 h-14 bg-gradient-to-l from-white from-40%" />
     </section>
   );
 };
