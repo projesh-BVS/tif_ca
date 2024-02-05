@@ -1,12 +1,9 @@
-const LoadingIndicator = ({
-  colorBG = "text-gray-300",
-  colorFill = "fill-tif-blue",
-}) => {
+const LoadingIndicator = () => {
   return (
     <div>
       <svg
         aria-hidden="true"
-        className={`${colorBG} ${colorFill} w-8 h-8 mr-2 animate-spin`}
+        className="w-8 h-8 mr-2 text-gray-300 animate-spin dark:text-gray-600 fill-tif-blue"
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
