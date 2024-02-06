@@ -15,9 +15,12 @@ const ModalFiltersContent = ({
   productPriceMax,
   activePriceRange,
   onOutletChangedCallback,
+  onPriceRangeChangedCallback,
   onCloseCallback,
 }) => {
   const [currActiveOutlet, setCurrActiveOutlet] = useState(activeOutletName);
+  const [currActivePriceRange, setCurrActivePriceRange] =
+    useState(activePriceRange);
   console.log(
     "ModalContent Outlet Objects Recieved-> " + JSON.stringify(outletNameList)
   );
@@ -29,6 +32,17 @@ const ModalFiltersContent = ({
     console.log("Outlet changed to " + newActiveOutlet);
     setCurrActiveOutlet(newActiveOutlet);
     onOutletChangedCallback(newActiveOutlet);
+  }
+
+  function Callback_OnPriceChanged(newActivePriceRange) {
+    console.log(
+      "Price Range changed to | Min -> " +
+        newActivePriceRange.min +
+        " | Max -> " +
+        newActivePriceRange.max
+    );
+    setCurrActivePriceRange(newActivePriceRange);
+    onPriceRangeChangedCallback(newActivePriceRange);
   }
 
   return (
@@ -81,7 +95,8 @@ const ModalFiltersContent = ({
                 <FilterPriceControls
                   minPrice={productPriceMin}
                   maxPrice={productPriceMax}
-                  activePriceRange={activePriceRange}
+                  activePriceRange={currActivePriceRange}
+                  callback_PriceChanged={Callback_OnPriceChanged}
                 />
               </div>
 

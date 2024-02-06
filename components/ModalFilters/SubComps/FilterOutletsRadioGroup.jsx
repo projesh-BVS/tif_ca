@@ -52,7 +52,6 @@ const FilterOutletsRadioGroup = ({
   console.log("Active Outlet Recieved -> " + JSON.stringify(activeOutlet));
 
   function OnOutletChange(newActiveOutlet) {
-    console.log("AMI PEYECHI -> " + newActiveOutlet);
     setSelected(newActiveOutlet);
     callback_OutletChanged(newActiveOutlet);
   }

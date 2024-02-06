@@ -1,9 +1,16 @@
 import { useState, useEffect, useRef } from "react";
 
-const FilterPriceControls = ({ minPrice, maxPrice, activePriceRange }) => {
+const FilterPriceControls = ({
+  minPrice,
+  maxPrice,
+  activePriceRange,
+  callback_PriceChanged,
+}) => {
   const progressRef = useRef(null);
-  const [minValue, setMinValue] = useState(activePriceRange.min);
-  const [maxValue, setMaxValue] = useState(activePriceRange.max);
+  const [currActivePriceRange, setCurrActivePriceRange] =
+    useState(activePriceRange);
+  const [minValue, setMinValue] = useState(currActivePriceRange.min);
+  const [maxValue, setMaxValue] = useState(currActivePriceRange.max);
 
   const handleMin = (e) => {
     if (maxValue - minValue >= 10000 && maxValue <= maxPrice) {
@@ -36,13 +43,60 @@ const FilterPriceControls = ({ minPrice, maxPrice, activePriceRange }) => {
     progressRef.current.style.right = 100 - (maxValue / maxPrice) * 100 + "%";
   }, [minValue, maxValue, minPrice, maxPrice]);
 
+  useEffect(() => {
+    /*let newActivePriceRange = {
+      min: minValue,
+      max: maxValue,
+    };*/
+    let newActivePriceRange = currActivePriceRange;
+    newActivePriceRange.min = minValue;
+    newActivePriceRange.max = maxValue;
+
+    setCurrActivePriceRange(newActivePriceRange);
+    callback_PriceChanged(newActivePriceRange);
+  }, [minValue, maxValue]);
+
   return (
-    <div className="flex flex-col justify-center items-stretch w-full p-4 gap-12">
+    <div className="flex flex-col justify-center items-stretch w-full p-4 gap-4">
       <h1 className="w-full font-medium text-sm text-gray-900">
-        Use Slider to set minimum & maximum price
+        Use Slider or enter minimum & maximum price
       </h1>
 
-      <div className="mb-6 px-4">
+      <div className="flex justify-between items-center px-4 mt-4">
+        <div className="flex items-center justify-center gap-2 rounded-md">
+          <span className="font-semibold">Min</span>
+          <input
+            onChange={(e) =>
+              e.target.value < minPrice
+                ? setMinValue(minPrice)
+                : e.target.value > maxValue - 10000
+                ? setMinValue(maxValue - 10000)
+                : setMinValue(e.target.value)
+            }
+            type="number"
+            value={minValue}
+            className="w-24 rounded-md border-2 px-2 py-1 border-tif-blue"
+          />
+        </div>
+        <div className="ml-2 font-semibold text-lg"> - </div>
+        <div className="flex items-center justify-center gap-2 rounded-md">
+          <span className="font-semibold">Max</span>
+          <input
+            onChange={(e) =>
+              e.target.value > maxPrice
+                ? setMaxValue(maxPrice)
+                : e.target.value < minValue + 10000
+                ? setMaxValue(minValue + 10000)
+                : setMaxValue(e.target.value)
+            }
+            type="number"
+            value={maxValue}
+            className="w-24 rounded-md border-2 px-2 py-1 border-tif-blue"
+          />
+        </div>
+      </div>
+
+      <div className="mt-12 mb-6 px-4">
         <div className="slider relative h-1 rounded-md bg-gray-300">
           <div
             className="progress absolute h-1 bg-tif-blue rounded"
@@ -85,11 +139,6 @@ const FilterPriceControls = ({ minPrice, maxPrice, activePriceRange }) => {
           />
         </div>
       </div>
-
-      {/*<div className="flex items-center justify-between w-full font-medium text-sm text-gray-900">
-        <h1 className="px-2 py-1 bg-gray-300 rounded-lg">{minPrice}</h1>
-        <h1 className="px-2 py-1 bg-gray-300 rounded-lg">{maxPrice}</h1>
-      </div>*/}
     </div>
   );
 };

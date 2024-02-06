@@ -71,7 +71,7 @@ const ProductViewModelCard = ({ productInfo }) => {
       <model-viewer
         id="CurrProductViewer"
         src={productInfo.data.glb}
-        ios-src={productInfo.data.usdz}
+        //ios-src={productInfo.data.usdz}
         poster={productInfo.data.poster}
         alt={"3D model of " + productInfo.data.productName}
         shadow-intensity="1"

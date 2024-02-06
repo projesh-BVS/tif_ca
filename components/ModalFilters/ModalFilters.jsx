@@ -25,7 +25,7 @@ const ModalFilters = ({
   function CloseModal() {
     setIsOpen(false);
     if (callback_OnClose != null) {
-      callback_OnClose(activeOutletName);
+      callback_OnClose(activeOutletName, activeProductPriceRange);
     }
   }
 
@@ -43,6 +43,7 @@ const ModalFilters = ({
   }
 
   function SetProductPriceRange() {
+    console.log("SetProductPriceRange -> " + JSON.stringify(activePriceRange));
     var minPrice = Number.MAX_VALUE;
     var maxPrice = Number.MIN_VALUE;
     var activeMinPrice = activePriceRange.min;
@@ -64,6 +65,10 @@ const ModalFilters = ({
 
   function Callback_OnOutletChanged(newActiveOutlet) {
     setActiveOutletName(newActiveOutlet);
+  }
+
+  function Callback_OnPriceRangeChanged(newActivePriceRange) {
+    setActiveProductPriceRange(newActivePriceRange);
   }
 
   useEffect(() => {
@@ -98,6 +103,7 @@ const ModalFilters = ({
             productPriceMax={maxProductPrice}
             activePriceRange={activeProductPriceRange}
             onOutletChangedCallback={Callback_OnOutletChanged}
+            onPriceRangeChangedCallback={Callback_OnPriceRangeChanged}
             onCloseCallback={callback_OnClose}
           />
         </Dialog>
